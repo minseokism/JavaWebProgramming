@@ -15,6 +15,9 @@ import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/member/list")
 public class MemberListServlet extends GenericServlet{
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void service(ServletRequest request, ServletResponse response)
 			throws ServletException, IOException {
@@ -36,6 +39,7 @@ public class MemberListServlet extends GenericServlet{
 			PrintWriter out = response.getWriter();
 			out.println("<html><head><title>회원목록</title></head>");
 			out.println("<body><h1>회원목록</h1>");
+			out.println("<p><a href='add'>신규 회원</a></p>");
 			while(rs.next()) {
 				out.println(
 					rs.getInt("MNO") + "," +
