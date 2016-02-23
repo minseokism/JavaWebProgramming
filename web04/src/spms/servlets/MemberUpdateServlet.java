@@ -8,23 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-@WebServlet(
-		urlPatterns={"/member/update"},
-		initParams={
-				@WebInitParam(name="driver",value="com.mysql.jdbc.Driver"),
-				@WebInitParam(name="url", value="jdbc:mysql://localhost/studydb"),
-				@WebInitParam(name="username", value="study"),
-				@WebInitParam(name="password", value="study")
-		}
-)
+@WebServlet("/member/update")
 public class MemberUpdateServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,11 +25,12 @@ public class MemberUpdateServlet extends HttpServlet {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName(this.getInitParameter("driver"));
+			ServletContext sc = this.getServletContext();
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
-						this.getInitParameter("url"),
-						this.getInitParameter("username"),
-						this.getInitParameter("password")); 
+						sc.getInitParameter("url"),
+						sc.getInitParameter("username"),
+						sc.getInitParameter("password")); 
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(
 				"SELECT MNO,EMAIL,MNAME,CRE_DATE FROM MEMBERS" + 
@@ -81,11 +74,12 @@ public class MemberUpdateServlet extends HttpServlet {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try{
-			Class.forName(this.getInitParameter("driver"));
+			ServletContext sc = this.getServletContext();
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
-					this.getInitParameter("url"),
-					this.getInitParameter("username"),
-					this.getInitParameter("password"));
+					sc.getInitParameter("url"),
+					sc.getInitParameter("username"),
+					sc.getInitParameter("password"));
 			stmt = conn.prepareStatement(
 					"UPDATE MEMBERS SET EMAIL=?,MNAME=?,MOD_DATE=now()"
 					+ "WHERE MNO=?");
