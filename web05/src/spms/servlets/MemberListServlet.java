@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import spms.vo.Member;
 
-// UI 출력 코드를 제거하고, UI 생성 및 출력을 JSP에게 위임한다.
 @WebServlet("/member/list")
 public class MemberListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -65,7 +64,9 @@ public class MemberListServlet extends HttpServlet {
 			rd.include(request, response);
 			
 		} catch (Exception e) {
-			throw new ServletException(e);
+			request.setAttribute("error", e);
+			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
+			rd.forward(request,response);
 			
 		} finally {
 			try {if (rs != null) rs.close();} catch(Exception e) {}
