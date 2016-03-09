@@ -19,6 +19,7 @@ import spms.vo.Member;
 
 @WebServlet("/member/list")
 public class MemberListServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Override
