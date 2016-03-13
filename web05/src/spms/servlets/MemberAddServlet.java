@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import spms.dao.MemberDao;
+import spms.vo.Member;
+
 @WebServlet("/member/add")
 public class MemberAddServlet extends HttpServlet {
 	
@@ -38,13 +41,13 @@ public class MemberAddServlet extends HttpServlet {
 			ServletContext sc = this.getServletContext();
 			Class.forName(sc.getInitParameter("driver"));
 			conn = (Connection) sc.getAttribute("conn");
-			stmt = conn.prepareStatement(
-					"INSERT INTO MEMBERS(EMAIL,PWD,MNAME,CRE_DATE,MOD_DATE)"
-					+ " VALUES (?,?,?,NOW(),NOW())");
-			stmt.setString(1, request.getParameter("email"));
-			stmt.setString(2, request.getParameter("password"));
-			stmt.setString(3, request.getParameter("name"));
-			stmt.executeUpdate();
+
+			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
+			memberDao.insert(new Member()
+					.setEmail(request.getParameter("email"))
+					.setName(request.getParameter("name"))
+					.setPassword(request.getParameter("password")));
 			
 			response.sendRedirect("list");
 			

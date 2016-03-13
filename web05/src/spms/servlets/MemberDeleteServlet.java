@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import spms.dao.MemberDao;
+
 @WebServlet("/member/delete")
 public class MemberDeleteServlet extends HttpServlet {
 	
@@ -27,11 +29,11 @@ public class MemberDeleteServlet extends HttpServlet {
 		try {
 			ServletContext sc = this.getServletContext();
 			Class.forName(sc.getInitParameter("driver"));
-			conn = (Connection) sc.getAttribute("conn");
-			stmt = conn.createStatement();
-			stmt.executeUpdate(
-					"DELETE FROM MEMBERS WHERE MNO=" + 
-					request.getParameter("no"));
+			
+			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
+			
+			memberDao.delete(Integer.parseInt(request.getParameter("no")));
 			
 			response.sendRedirect("list");
 			

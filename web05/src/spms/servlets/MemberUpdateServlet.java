@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import spms.dao.MemberDao;
 import spms.vo.Member;
 
 @SuppressWarnings("serial")
@@ -30,19 +31,12 @@ public class MemberUpdateServlet extends HttpServlet {
 			ServletContext sc = this.getServletContext();
 			Class.forName(sc.getInitParameter("driver"));
 			conn = (Connection) sc.getAttribute("conn");
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(
-				"SELECT MNO,EMAIL,MNAME,CRE_DATE FROM MEMBERS" + 
-				" WHERE MNO=" + request.getParameter("no"));	
-			if(rs.next()){
-				request.setAttribute("member", new Member()
-					.setNo(rs.getInt("MNO"))
-					.setEmail(rs.getString("EMAIL"))
-					.setName(rs.getString("MNAME"))
-					.setCreatedDate(rs.getDate("CRE_DATE")));
-			}else{
-				throw new Exception("해당 번호의 회원을 찾을 수 없습니다.");
-			}
+			
+			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
+			
+			request.setAttribute("member", memberDao.selectOne(
+											Integer.parseInt(request.getParameter("no"))));
 			
 			RequestDispatcher rd = request.getRequestDispatcher(
 					"/member/MemberUpdateForm.jsp");
@@ -79,6 +73,13 @@ public class MemberUpdateServlet extends HttpServlet {
 			stmt.setString(2, request.getParameter("name"));
 			stmt.setInt(3, Integer.parseInt(request.getParameter("no")));
 			stmt.executeUpdate();
+			
+			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
+			memberDao.update(new Member()
+								.setEmail(request.getParameter("email"))
+								.setName(request.getParameter("name"))
+								.setNo(Integer.parseInt(request.getParameter("no"))));
 			
 			response.sendRedirect("list");
 			
