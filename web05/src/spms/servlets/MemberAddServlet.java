@@ -1,8 +1,6 @@
 package spms.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -33,17 +31,11 @@ public class MemberAddServlet extends HttpServlet {
 	protected void doPost(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		Connection conn = null;
-		PreparedStatement stmt = null;
-
+		
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
-			conn = (Connection) sc.getAttribute("conn");
 
-			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 			memberDao.insert(new Member()
 					.setEmail(request.getParameter("email"))
 					.setName(request.getParameter("name"))
@@ -55,9 +47,6 @@ public class MemberAddServlet extends HttpServlet {
 			request.setAttribute("error", e);
 			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
 			rd.forward(request,response);			
-		} finally {
-			try {if (stmt != null) stmt.close();} catch(Exception e) {}
-		}
-
+		} 
 	}
 }

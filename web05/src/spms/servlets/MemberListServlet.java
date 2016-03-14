@@ -1,7 +1,6 @@
 package spms.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -24,11 +23,8 @@ public class MemberListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			ServletContext sc = this.getServletContext();
-			Connection conn = (Connection) sc.getAttribute("conn");
-			
-			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
-			
+
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 			request.setAttribute("members", memberDao.selectList());
 			
 			response.setContentType("text/html; charset=UTF-8");

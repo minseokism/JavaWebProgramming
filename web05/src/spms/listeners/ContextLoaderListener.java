@@ -18,8 +18,8 @@ public class ContextLoaderListener implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent event) {
 		try{
 			ServletContext sc = event.getServletContext();
-			
-			Class.forName(sc.getInitParameter("drvier"));
+
+			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
 					sc.getInitParameter("url"),
 					sc.getInitParameter("username"),

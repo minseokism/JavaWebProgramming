@@ -1,8 +1,6 @@
 package spms.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Statement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -23,16 +21,10 @@ public class MemberDeleteServlet extends HttpServlet {
 	public void doGet(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Connection conn = null;
-		Statement stmt = null;
-
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
 			
-			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
-			
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 			memberDao.delete(Integer.parseInt(request.getParameter("no")));
 			
 			response.sendRedirect("list");
@@ -42,9 +34,6 @@ public class MemberDeleteServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
 			rd.forward(request,response);
 			
-		} finally {
-			try {if (stmt != null) stmt.close();} catch(Exception e) {}
 		}
-
 	}
 }
