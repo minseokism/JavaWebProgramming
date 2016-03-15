@@ -34,19 +34,15 @@ public class MemberAddServlet extends HttpServlet {
 		
 		try {
 			ServletContext sc = this.getServletContext();
-
 			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
-			memberDao.insert(new Member()
-					.setEmail(request.getParameter("email"))
-					.setName(request.getParameter("name"))
-					.setPassword(request.getParameter("password")));
 			
-			response.sendRedirect("list");
+			Member member = (Member)request.getAttribute("member");
+			memberDao.insert(member);
+			
+			request.setAttribute("viewUrl", "redirect:list.do");
 			
 		} catch (Exception e) {
-			request.setAttribute("error", e);
-			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
-			rd.forward(request,response);			
+			throw new ServletException(e);	
 		} 
 	}
 }
