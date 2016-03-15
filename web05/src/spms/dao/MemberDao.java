@@ -7,14 +7,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import spms.util.DBConnectionPool;
+import javax.sql.DataSource;
+
 import spms.vo.Member;
 
 public class MemberDao {	
-	DBConnectionPool connPool;
+	DataSource ds;
 	
-	public void setDbConnectionPool(DBConnectionPool connPool) {
-		this.connPool = connPool;
+	public void setDataSource(DataSource ds) {
+		this.ds = ds;
 	}
 	
 	public List<Member> selectList() throws Exception {
@@ -23,7 +24,7 @@ public class MemberDao {
 	    ResultSet rs = null;
 
 	    try {
-	    	connection = connPool.getConnection();
+	    	connection = ds.getConnection();
 	    	stmt = connection.createStatement();
 	    	rs = stmt.executeQuery(
 		          "SELECT MNO,MNAME,EMAIL,CRE_DATE" + 
@@ -48,6 +49,7 @@ public class MemberDao {
 	    } finally {
 	      try {if (rs != null) rs.close();} catch(Exception e) {}
 	      try {if (stmt != null) stmt.close();} catch(Exception e) {}
+	      try {if (connection != null) connection.close();} catch(Exception e) {}
 	    }
 	}
 	
@@ -56,7 +58,7 @@ public class MemberDao {
 		PreparedStatement stmt = null;
 		
 		try {
-	    	connection = connPool.getConnection();
+	    	connection = ds.getConnection();
 			stmt = connection.prepareStatement(
 					"INSERT INTO MEMBERS(EMAIL,PWD,MNAME,CRE_DATE,MOD_DATE)"
 					+ " VALUES (?,?,?,NOW(),NOW())");
@@ -70,7 +72,8 @@ public class MemberDao {
 			throw e;
 			
 		} finally {
-			try{ if(stmt != null) stmt.close();} catch (Exception e) {}
+			try {if (stmt != null) stmt.close();} catch (Exception e) {}
+			try {if (connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 	
@@ -79,7 +82,7 @@ public class MemberDao {
 		Statement stmt = null;
 		
 		try {
-	    	connection = connPool.getConnection();
+	    	connection = ds.getConnection();
 			stmt = connection.createStatement();
 			return 	stmt.executeUpdate(
 					"DELETE FROM MEMBERS WHERE MNO=" +no);
@@ -87,7 +90,8 @@ public class MemberDao {
 		} catch (Exception e){
 			throw e;
 		} finally {
-			try{ if(stmt != null) stmt.close();} catch (Exception e){}
+			try {if (stmt != null) stmt.close();} catch (Exception e){}
+			try {if (connection != null) connection.close();} catch(Exception e) {}
 		}
 		
 	}
@@ -98,7 +102,7 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		try {
-	    	connection = connPool.getConnection();
+	    	connection = ds.getConnection();
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(
 			          "SELECT MNO,MNAME,EMAIL,CRE_DATE" + 
@@ -117,8 +121,9 @@ public class MemberDao {
 			throw e;
 		
 		} finally {
-			try{ if(stmt != null) stmt.close(); } catch (Exception e) {}
-			try{ if(rs != null) rs.close(); } catch (Exception e) {}
+			try {if (stmt != null) stmt.close(); } catch (Exception e) {}
+			try {if (rs != null) rs.close(); } catch (Exception e) {}
+			try {if (connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 	
@@ -127,7 +132,7 @@ public class MemberDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-	    	connection = connPool.getConnection();
+	    	connection = ds.getConnection();
 			stmt = connection.prepareStatement(
 					"UPDATE MEMBERS SET EMAIL=?,MNAME=?,MOD_DATE=now()"
 					+ " WHERE MNO=?");
@@ -139,8 +144,9 @@ public class MemberDao {
 		} catch (Exception e){
 			throw e;
 		} finally {
-			try{ if(stmt != null) stmt.close(); } catch (Exception e) {}
-			try{ if(rs != null) rs.close(); } catch (Exception e) {}
+			try {if (stmt != null) stmt.close(); } catch (Exception e) {}
+			try {if (rs != null) rs.close(); } catch (Exception e) {}
+			try {if (connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 	
@@ -150,7 +156,7 @@ public class MemberDao {
 	    ResultSet rs = null;
 
 	    try {
-	    	connection = connPool.getConnection();
+	    	connection = ds.getConnection();
 	    	stmt = connection.prepareStatement(
 	    			"SELECT MNAME,EMAIL FROM MEMBERS"
 	    					+ " WHERE EMAIL=? AND PWD=?");
@@ -168,8 +174,9 @@ public class MemberDao {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			try{ if(stmt != null) stmt.close(); } catch (Exception e) {}
-			try{ if(rs != null) rs.close(); } catch (Exception e) {}
+			try {if (stmt != null) stmt.close(); } catch (Exception e) {}
+			try {if (rs != null) rs.close(); } catch (Exception e) {}
+			try {if (connection != null) connection.close();} catch(Exception e) {}
 		}
 	}
 }
