@@ -2,7 +2,6 @@ package spms.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,16 +26,10 @@ public class MemberListServlet extends HttpServlet {
 			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 			request.setAttribute("members", memberDao.selectList());
 			
-			response.setContentType("text/html; charset=UTF-8");
-			RequestDispatcher rd = request.getRequestDispatcher(
-					"/member/MemberList.jsp");
-			rd.include(request, response);
+			request.setAttribute("viewUrl", "/member/MemberList.jsp");
 			
 		} catch (Exception e) {
-			request.setAttribute("error", e);
-			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
-			rd.forward(request,response);
-			
+			throw new ServletException(e);
 		}	
 	}
 }

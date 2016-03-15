@@ -26,9 +26,9 @@ public class DispatcherServlet extends HttpServlet {
 			String pageControllerPath = null;
 			
 			if("/member/list.do".equals(servletPath)) {
-				pageControllerPath = "member/list";
+				pageControllerPath = "/member/list";
 			} else if ("/member/add.do".equals(servletPath)) {
-				pageControllerPath = "member/add";
+				pageControllerPath = "/member/add";
 				if (request.getParameter("email") != null){
 					request.setAttribute("member", new Member()
 					.setEmail(request.getParameter("email"))
@@ -36,7 +36,7 @@ public class DispatcherServlet extends HttpServlet {
 					.setPassword(request.getParameter("password")));
 				}
 			} else if ("/member/update.do".equals(servletPath)) {
-				pageControllerPath = "member/update";
+				pageControllerPath = "/member/update";
 				if (request.getParameter("email") != null){
 					request.setAttribute("member", new Member()
 					.setEmail(request.getParameter("email"))
@@ -44,11 +44,11 @@ public class DispatcherServlet extends HttpServlet {
 					.setNo(Integer.parseInt(request.getParameter("no"))));
 				}
 			} else if ("/member/delete.do".equals(servletPath)) {
-				pageControllerPath = "member/delete";	
+				pageControllerPath = "/member/delete";	
 			} else if ("/member/login.do".equals(servletPath)) {
-				pageControllerPath = "auth/login";
+				pageControllerPath = "/auth/login";
 			} else if ("/member/logout.do".equals(servletPath)) {
-				pageControllerPath = "auth/logout";
+				pageControllerPath = "/auth/logout";
 			}
 			
 			RequestDispatcher rd = request.getRequestDispatcher(pageControllerPath);
