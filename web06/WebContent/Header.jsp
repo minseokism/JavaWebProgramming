@@ -8,7 +8,7 @@ SPMS(Simple Project Management System)
 <% if (member.getEmail() != null) { %>
 <span style="float:right;">
 <%=member.getName() %>
-<a style="color:white;" href="<%=request.getContextPath()%>/auth/logout">로그아웃</a>
+<a style="color:white;" href="<%=request.getContextPath()%>/auth/logout.do">로그아웃</a>
 </span>
 <% } %>
 </div>

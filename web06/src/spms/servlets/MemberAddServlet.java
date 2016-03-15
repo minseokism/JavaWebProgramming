@@ -2,7 +2,6 @@ package spms.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,9 +21,7 @@ public class MemberAddServlet extends HttpServlet {
 	protected void doGet(
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher(
-										"/member/MemberForm.jsp");
-		rd.forward(request, response);
+		request.setAttribute("viewUrl","/member/MemberForm.jsp");
 	}
 	
 	@Override
