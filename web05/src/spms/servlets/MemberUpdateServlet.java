@@ -22,7 +22,6 @@ public class MemberUpdateServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
 			
 			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");		
 			request.setAttribute("member", memberDao.selectOne(
@@ -46,7 +45,6 @@ public class MemberUpdateServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
 
 			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 			memberDao.update(new Member()
