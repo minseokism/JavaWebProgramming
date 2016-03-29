@@ -19,8 +19,6 @@ public class ServletRequestDataBinder {
 		for (String paramName : paramNames) {
 			m = findSetter(dataType, paramName);
 			if (m != null) {
-				System.out.println("3  "+m.getName());
-				System.out.println(paramName);
 				m.invoke(dataObject, createValueObject(m.getParameterTypes()[0],
 						request.getParameter(paramName)));
 			}
