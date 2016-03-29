@@ -29,6 +29,18 @@ public class ApplicationContext {
 		injectDependency();
 	}
 	
+	private void prepareAnnotationObjects() throws Exception{
+		Reflections reflector = new Reflections("");
+		
+		Set<Class<?>> list = reflector.getTypesAnnotatedWith(Component.class);
+		String key = null;
+		
+		for(Class<?> clazz : list) {
+			key = clazz.getAnnotation(Component.class).value();
+			objTable.put(key, clazz.newInstance());
+		}
+	}
+	
 	public void prepareObjects(Properties props) throws Exception {
 		Context ctx = new InitialContext();
 		String key = null;
@@ -44,17 +56,7 @@ public class ApplicationContext {
 		}
 	}
 	
-	private void prepareAnnotationObjects() throws Exception{
-		Reflections reflector = new Reflections("");
-		
-		Set<Class<?>> list = reflector.getTypesAnnotatedWith(Component.class);
-		String key = null;
-		
-		for(Class<?> clazz : list) {
-			key = clazz.getAnnotation(Component.class).value();
-			objTable.put(key, clazz.newInstance());
-		}
-	}
+
 	
 	private void injectDependency() throws Exception {
 		for (String key : objTable.keySet()) {

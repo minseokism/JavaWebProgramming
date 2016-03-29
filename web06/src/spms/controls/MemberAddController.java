@@ -4,15 +4,14 @@ import java.util.Map;
 
 import spms.annotation.Component;
 import spms.bind.DataBinding;
-import spms.dao.MySqlMemberDao;
+import spms.dao.MemberDao;
 import spms.vo.Member;
 
 @Component("/member/add.do")
 public class MemberAddController implements Controller, DataBinding{
-	MySqlMemberDao memberDao;
+	MemberDao memberDao;
 	
-	
-	public MemberAddController setMemberDao(MySqlMemberDao memberDao){
+	public MemberAddController setMemberDao(MemberDao memberDao){
 		this.memberDao = memberDao;
 		return this;
 	}
@@ -20,7 +19,7 @@ public class MemberAddController implements Controller, DataBinding{
 	@Override
 	public Object[] getDataBinders() {
 		return new Object[]{
-				"member", spms.vo.Member.class
+			"member", spms.vo.Member.class
 		};
 	}
 	
@@ -30,8 +29,7 @@ public class MemberAddController implements Controller, DataBinding{
 		if (member.getEmail() == null) {
 			return "/member/MemberForm.jsp";
 		} else {
-			memberDao.insert(member);
-			
+			memberDao.insert(member);			
 			return "redirect:list.do";
 		}
 	}

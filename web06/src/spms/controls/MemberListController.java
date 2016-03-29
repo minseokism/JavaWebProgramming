@@ -3,13 +3,13 @@ package spms.controls;
 import java.util.Map;
 
 import spms.annotation.Component;
-import spms.dao.MySqlMemberDao;
+import spms.dao.MemberDao;
 
 @Component("/member/list.do")
 public class MemberListController implements Controller{
-	MySqlMemberDao memberDao;
+	MemberDao memberDao;
 	
-	public MemberListController setMemberDao(MySqlMemberDao memberDao){
+	public MemberListController setMemberDao(MemberDao memberDao){
 		this.memberDao = memberDao;
 		return this;
 	}

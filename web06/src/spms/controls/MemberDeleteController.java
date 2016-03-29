@@ -4,13 +4,14 @@ import java.util.Map;
 
 import spms.annotation.Component;
 import spms.bind.DataBinding;
-import spms.dao.MySqlMemberDao;
+import spms.dao.MemberDao;
+
 
 @Component("/member/delete.do")
 public class MemberDeleteController implements Controller, DataBinding {
-	MySqlMemberDao memberDao;
+	MemberDao memberDao;
 	
-	public MemberDeleteController setMemberDao(MySqlMemberDao memberDao){
+	public MemberDeleteController setMemberDao(MemberDao memberDao){
 		this.memberDao = memberDao;
 		return this;
 	}
