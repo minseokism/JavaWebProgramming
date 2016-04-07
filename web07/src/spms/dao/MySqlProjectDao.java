@@ -64,7 +64,6 @@ public class MySqlProjectDao implements ProjectDao {
 	public int delete(int no) throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
-			
 			int count = sqlSession.delete("spms.dao.ProjectDao.delete", no);
 			sqlSession.commit();
 			return count;
