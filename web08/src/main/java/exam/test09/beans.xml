@@ -6,20 +6,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans	
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
-	<bean id="car1" class="exam.test08.Car">
+	<bean id="car1" class="exam.test09.Car">
 		<constructor-arg value="Avante"/>
 		<constructor-arg>
-			<bean class="exam.test08.Engine" p:maker="Hyundai" p:cc="1495"/>
+			<bean class="exam.test09.Engine" p:maker="Hyundai" p:cc="1495"/>
 		</constructor-arg>
+		<property name="tires">
+			<list>
+				<bean class="exam.test09.Tire" p:maker="Kumho" p:spec="P185/65R14"/>
+				<bean class="exam.test09.Tire" p:maker="Kumho" p:spec="P185/65R14"/>
+				<bean class="exam.test09.Tire" p:maker="Hankook" p:spec="P205/65R14"/>
+				<bean class="exam.test09.Tire" p:maker="Hankook" p:spec="P205/65R14"/>
+			</list>
+		</property>
 	</bean>
-
-	<bean id="car2" class="exam.test08.Car">
-		<property name="model" value="Sonata"/>
-		<property name="engine">
-			<bean class="exam.test08.Engine" p:maker="Hyundai" p:cc="1997"/>
-		</property>		
-	</bean>
-
+	
 </beans>
  
  
