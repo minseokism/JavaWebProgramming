@@ -27,6 +27,8 @@ repositories {
 }
 
 dependencies {
+	compile 'org.mybatis:mybatis-spring:1.2.2'
+	compile 'org.springframework:spring-jdbc:4.0.3.RELEASE'
 	providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
 	compile 'jstl:jstl:1.2'
 	compile 'org.reflections:reflections:0.9.9-RC1'

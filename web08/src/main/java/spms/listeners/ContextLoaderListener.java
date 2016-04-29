@@ -1,49 +1,26 @@
 package spms.listeners;
 
-import java.io.InputStream;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import spms.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 // dbcp2을 사용하려면 logging라이브러리가 추가적으로 필요함
 
 @WebListener
 public class ContextLoaderListener implements ServletContextListener{
-	static ApplicationContext applicationContext;
+	static ClassPathXmlApplicationContext applicationContext;
 	
-	public static ApplicationContext getApplicationContext() {
+	public static ClassPathXmlApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
 	
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		try{
-			applicationContext = new ApplicationContext();
+			applicationContext = new ClassPathXmlApplicationContext("beans.xml");
 			
-			String resource = "spms/dao/mybatis-config.xml";
-			InputStream inputStream = Resources.getResourceAsStream(resource);
-			SqlSessionFactory sqlSessionFactory = 
-					new SqlSessionFactoryBuilder().build(inputStream);
-			
-			applicationContext.addBean("sqlSessionFactory", sqlSessionFactory);
-			
-			ServletContext sc = event.getServletContext();
-			String propertiesPath = sc.getRealPath(
-					sc.getInitParameter("contextConfigLocation"));
-			
-			applicationContext.prepareObjectsByProperties(propertiesPath);
-			
-			applicationContext.prepareObjectsByAnnotation("");
-			
-			applicationContext.injectDependency();
 		} catch(Throwable e) {
 			e.printStackTrace();
 		}
